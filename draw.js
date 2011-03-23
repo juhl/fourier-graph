@@ -51,19 +51,33 @@ App = function() {
         var ck = 0;
         var sk = 0;
 
-        for (var x = 0; x < 512; x++) {
-            var t = 2 * Math.PI * k * x / 512;
-            ck += signals[x] * Math.cos(t);
-            sk += signals[x] * Math.sin(t);
-        }
+		if (k == 0) {
+        	for (var x = 0; x < 512; x++) {
+            	ck += signals[x];
+        	}
 
-        ck *= (2 / 512);
-        sk *= (2 / 512);
+        	ck *= (1 / 512);
+						
+        	for (var x = 0; x < 512; x++) {
+           		fourierTransformedData[x] += ck;
+			}
+		} else {
+			var t = 2 * Math.PI * k / 512;
 
-        for (var x = 0; x < 512; x++) {
-            var t = 2 * Math.PI * k * x / 512;
-            fourierTransformedData[x] += (ck * Math.cos(t) + sk * Math.sin(t)) * (k == 0 ? 0.5 : 1.0);
-        }
+        	for (var x = 0; x < 512; x++) {
+            	var tx = t * x;
+            	ck += signals[x] * Math.cos(tx);
+            	sk += signals[x] * Math.sin(tx);
+        	}
+
+        	ck *= (2 / 512);
+        	sk *= (2 / 512);
+	
+        	for (var x = 0; x < 512; x++) {
+				var tx = t * x;
+            	fourierTransformedData[x] += ck * Math.cos(tx) + sk * Math.sin(tx);
+        	}
+		}
 
         ctx.clearRect(0, 0, 512, 256);
         drawAxis();
@@ -93,19 +107,18 @@ App = function() {
         mouseDown = true;
 
         lastPoint = getMousePoint(e);
-
-        clearTimeout(timeoutId);
+        
         for (var x = 0; x < 512; x++) {
             signals[x] = 0;
             fourierTransformedData[x] = 0;
         }
+
+		clearTimeout(timeoutId);
     }
 
     function onMouseUp(e) { 
         if (mouseDown) {
-            ctx.closePath();
             mouseDown = false;
-
             timeoutId = setTimeout(function() { drawFourierTransform(0); }, 100);
         }
     }
