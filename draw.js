@@ -20,8 +20,11 @@ App = function() {
 
         ctx = canvas.getContext("2d");
 
-        drawAxis();
-
+        for (var x = 0; x < 512; x++) {
+            signals[x] = 64 - (x % 128);
+        }
+        timeoutId = setTimeout(function() { drawFourierTransform(0); }, 100);
+              
         canvas.addEventListener("mousedown", function(e) { onMouseDown(e) }, false);
         canvas.addEventListener("mouseup", function(e) { onMouseUp(e) }, false);
         canvas.addEventListener("mousemove", function(e) { onMouseMove(e) }, false);
@@ -44,6 +47,7 @@ App = function() {
             ctx.lineTo(x, 128);
             ctx.lineTo(x, signals[x] + 128);
         }
+        ctx.lineTo(511, 128);
         ctx.fill();
     }
 
