@@ -92,7 +92,7 @@ App = function() {
 
 		ctx.strokeStyle = "#F00";
 		ctx.beginPath();
-		ctx.moveTo(0, canvas.height/2);
+		ctx.moveTo(0, fourierTransformedData[0] + canvas.height/2);
 		for (var x = 0; x < canvas.width; x++) {
 			ctx.lineTo(x, fourierTransformedData[x] + canvas.height/2);
 		}
