@@ -32,10 +32,10 @@ App = function() {
 		canvas.addEventListener("mouseup", function(e) { onMouseUp(e) }, false);
 		canvas.addEventListener("mousemove", function(e) { onMouseMove(e) }, false);
 
-        canvas.addEventListener("touchstart", touchHandler, false);
-        canvas.addEventListener("touchend", touchHandler, false);
-        canvas.addEventListener("touchmove", touchHandler, false);
-        canvas.addEventListener("touchcancel", touchHandler, false);
+		canvas.addEventListener("touchstart", touchHandler, false);
+		canvas.addEventListener("touchend", touchHandler, false);
+		canvas.addEventListener("touchmove", touchHandler, false);
+		canvas.addEventListener("touchcancel", touchHandler, false);
 	}
 
 	function drawAxis() {
@@ -108,7 +108,7 @@ App = function() {
 		ctx.fillText("k=" + k, 0, 20);
 
 		if (k < canvas.width/2 - 1)
-		timeoutId = setTimeout(function() { drawFourierTransform(k+1); }, 100);
+			timeoutId = setTimeout(function() { drawFourierTransform(k+1); }, 100);
 	}
 
 	function getMousePoint(e) {
@@ -155,30 +155,30 @@ App = function() {
 		}
 	}
 
-    function touchHandler(e) {
-        var touches = e.changedTouches;
-        var first = touches[0];
-        var type = "";
+	function touchHandler(e) {
+		var touches = e.changedTouches;
+		var first = touches[0];
+		var type = "";
 
-        switch (e.type) {
-        case "touchstart": type = "mousedown"; break;
-        case "touchmove":  type = "mousemove"; break;        
-        case "touchend":   type = "mouseup"; break;
-        default: return;
-        }
+		switch (e.type) {
+		case "touchstart": type = "mousedown"; break;
+		case "touchmove":  type = "mousemove"; break;        
+		case "touchend":   type = "mouseup"; break;
+		default: return;
+		}
 
-        //initMouseEvent(type, canBubble, cancelable, view, clickCount, 
-        //           screenX, screenY, clientX, clientY, ctrlKey, 
-        //           altKey, shiftKey, metaKey, button, relatedTarget);   
-        var simulatedEvent = document.createEvent("MouseEvent");
-        simulatedEvent.initMouseEvent(type, true, true, window, 1, 
-                                      first.screenX, first.screenY, 
-                                      first.clientX, first.clientY, false, 
-                                      false, false, false, 0/*left*/, null);
+		//initMouseEvent(type, canBubble, cancelable, view, clickCount, 
+		//           screenX, screenY, clientX, clientY, ctrlKey, 
+		//           altKey, shiftKey, metaKey, button, relatedTarget);   
+		var simulatedEvent = document.createEvent("MouseEvent");
+		simulatedEvent.initMouseEvent(type, true, true, window, 1, 
+									  first.screenX, first.screenY, 
+									  first.clientX, first.clientY, false, 
+									  false, false, false, 0/*left*/, null);
 
-        first.target.dispatchEvent(simulatedEvent);
-        e.preventDefault();
-    }
+		first.target.dispatchEvent(simulatedEvent);
+		e.preventDefault();
+	}
 
 	return { main: main };
-	}();
+}();
